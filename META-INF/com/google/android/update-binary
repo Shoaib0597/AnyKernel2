@@ -134,6 +134,15 @@ if [ $? != "0" ]; then
   abort;
 fi;
 
+if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.files)" == 1 ]; then
+  ui_print " ";
+  ui_print "Pushing a Custom ---init.qcom.rc--- File";
+  mount -o rw,remount -t auto /system;
+  $bb cp /tmp/anykernel/files/* $root/system/vendor/etc/init/hw/;
+  $bb chmod 0644 $root/system/vendor/etc/init/hw/init.qcom.rc;
+  mount -o ro,remount -t auto /system;
+fi;
+
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.modules)" == 1 ]; then
   ui_print " ";
   ui_print "Pushing modules...";
